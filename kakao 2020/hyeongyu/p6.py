@@ -21,7 +21,7 @@ def process(weak, dist, dp):
             # add people from possible previous state
             for k in range(len(dist)):
                 if j & K[k] == K[k] and dp[i - 1][j ^ K[k]] >= 0:
-                    dp[i][j] = max(dp[i][j], K[k])
+                    dp[i][j] = max(dp[i][j], dist[k])
             
     answer = len(dist) + 1
     for j in range(len(dp[0])):
@@ -50,6 +50,3 @@ def solution(n, weak, dist):
             answer = answer == -1 and new_answer or min(answer, new_answer)
             
     return answer
-
-
-print(solution(12, [1, 5, 6, 10], [1, 2, 3, 4]))

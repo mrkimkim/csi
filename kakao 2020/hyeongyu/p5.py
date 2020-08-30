@@ -100,6 +100,3 @@ def solution(n, build_frame):
     for i in range(len(answer)):
         answer[i] = [answer[i][0], answer[i][1], answer[i][2]]
     return answer
-
-a = solution(100, [[0,0,0,1],[2,0,0,1],[4,0,0,1],[0,1,1,1],[1,1,1,1],[2,1,1,1],[3,1,1,1],[2,0,0,0],[1,1,1,0],[2,2,0,1]])
-print (a)
