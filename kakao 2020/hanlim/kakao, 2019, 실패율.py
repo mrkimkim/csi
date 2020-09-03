@@ -27,9 +27,11 @@ def solution(N, stages):
     keys = list(failures.keys())
 
     for key in keys :
+        print (key)
         print(type(key))
 
     print('keys', keys)
+    keys.sort()
     keys.reverse()
 
     print('reverse keys', keys)
