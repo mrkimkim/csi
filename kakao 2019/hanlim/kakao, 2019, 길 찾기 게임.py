@@ -61,8 +61,8 @@ class Tree() :
         self.array = arr
         self.array.append(node.index)
 
-        if not node.left == None : self.preorderTraversal(node.left,self.array)
-        if not node.right == None : self.preorderTraversal(node.right, self.array)
+        if not node.left == None : self.array = self.preorderTraversal(node.left,self.array)
+        if not node.right == None : self.array = self.preorderTraversal(node.right, self.array)
 
         return self.array
 
@@ -71,8 +71,8 @@ class Tree() :
 
         self.array = arr
 
-        if not node.left == None : self.postorderTraversal(node.left, self.array)
-        if not node.right == None : self.postorderTravesal(node.right, self.array)
+        if not node.left == None : self.array = self.postorderTraversal(node.left, self.array)
+        if not node.right == None : self.array = self.postorderTravesal(node.right, self.array)
 
         self.array.append(node.index)
 
