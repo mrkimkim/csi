@@ -1,3 +1,8 @@
+import sys
+sys.setrecursionlimit(10**6)  # 파이썬의 경우 재귀 깊이가 1000으로 제한이 되어 있다.
+                              # 그런데 nodeinfo의 길이는 1 ~ 1000 이고
+                              # 아래의 preorder, postorder 재귀의 경우 각각 1000번은 재귀하므로 상한선을 바꿔줄 필요가 있다.
+
 class Node() :
 
     def __init__(self, arr) :
@@ -45,6 +50,7 @@ class Tree() :
 
                     pre_node.left = node
 
+
             elif node.data < new_node.data :
 
                 node = node.right
@@ -54,6 +60,8 @@ class Tree() :
                     node = new_node
 
                     pre_node.right = node
+
+            else : return  # 이거 없으면 루프가 안 끝난다.
 
 
     def preorderTraversal(self,node,arr) :
@@ -72,7 +80,7 @@ class Tree() :
         self.array = arr
 
         if not node.left == None : self.array = self.postorderTraversal(node.left, self.array)
-        if not node.right == None : self.array = self.postorderTravesal(node.right, self.array)
+        if not node.right == None : self.array = self.postorderTraversal(node.right, self.array)
 
         self.array.append(node.index)
 
@@ -106,8 +114,6 @@ def solution(nodeinfo):
     for i in range(n) :
 
         tree.insert(switched[i])
-
-    print(tree.root.data, tree.root.index)
 
     answer = []
 
