@@ -14,6 +14,9 @@ def solution(word, page):
         page[i] = page[i].lower() # 전부 소문자 변환
 
         name = findName(page[i])
+
+        if name == None : continue
+        
         dic[name].append(countWord(page[i], word))  # 기본점수
 
         temp = countfromLink(page[i]) # name에서 나가는 링크들의 리스트
@@ -37,24 +40,24 @@ def solution(word, page):
 
     scores = []
 
-    for key in dic.keys() :
+    for origin in dic.keys() :
 
-        basic = dic[key][0]
+        basic = dic[origin][0]
 
-        links = dic[key][3]
+        links = dic[origin][3]
 
         link_points = 0
 
         for key in links :
 
-            link_points = link_points + float(dic[key][0]/dic[key][1])
+            if key == origin : continue  # 자기 자신으로 링크가 걸려 있을 경우 배제
 
-        match_points = basic + link_points
+            link_points = float(link_points) + float(dic[key][0]/dic[key][1])
 
-        print(type(match_points))
-
+        match_points = float(basic) + link_points
         scores.append(match_points)
         
+    print(dic)
                          
     answer = scores.index(max(scores))
 
@@ -63,9 +66,14 @@ def solution(word, page):
 
 def findName(string) :
 
-    target = re.compile(r'"og:url" content="https://(.*)"')
+    target = re.compile(r'<head>(.*)</head>', re.DOTALL) # .은 \n을 배제하므로 옵션 필요
 
-    temp = target.findall(string)
+    head = target.findall(string)
+
+
+    target = re.compile(r'<meta property="og:url" content="https://(.*)"/>')
+
+    temp = target.findall(head[0])
 
     return temp[0]
 
@@ -81,9 +89,17 @@ def countWord(string, word) :
 
 def countfromLink(string) : # 여기서 나가는 링크
 
-    target = re.compile(r'<a href="https://(.*)"')
+    target = re.compile(r'<a href="https://(.*)">')
 
     temp = target.findall(string)
 
     return temp
 
+
+
+# Driver program
+
+pages = ["<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://careers.kakao.com/interview/list\"/>\n</head>  \n<body>\n<a href=\"https://programmers.co.kr/learn/courses/4673\"></a>#!MuziMuzi!)jayg07con&&\n\n</body>\n</html>", "<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://www.kakaocorp.com\"/>\n</head>  \n<body>\ncon%\tmuzI92apeach&2<a href=\"https://hashcode.co.kr/tos\"></a>\n\n\t^\n</body>\n</html>"]
+word = 'Muzi'
+
+print(solution(word,pages))
