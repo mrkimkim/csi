@@ -23,6 +23,7 @@ def solution(word, page):
         dic[name].append(len(temp)) 
         dic[name].append(temp)   
         dic[name].append([])  # 들어오는 링크를 저장할 리스트 초기화
+        dic[name].append(i)  # page의 인덱스를 저장. 딕셔너리는 key의 순서를 관리하지 않음. 
 
 
     for key in dic.keys() :
@@ -35,10 +36,10 @@ def solution(word, page):
 
                 dic[links[j]][3].append(key)
 
-# dic의 구조 [ 기본점수, 링크수, 여기서 나가는 링크 리스트, 여기로 들어오는 링크 리스트 ]
+# dic의 구조 [ 기본점수, 링크수, 여기서 나가는 링크 리스트, 여기로 들어오는 링크 리스트, page index ]
 
 
-    scores = []
+    scores = [0]*n
 
     for origin in dic.keys() :
 
@@ -55,9 +56,8 @@ def solution(word, page):
             link_points = float(link_points) + float(dic[key][0]/dic[key][1])
 
         match_points = float(basic) + link_points
-        scores.append(match_points)
-        
-    print(dic)
+        scores[dic[origin][4]] = match_points  # page 배열의 index 대로 매칭점수 배치
+
                          
     answer = scores.index(max(scores))
 
